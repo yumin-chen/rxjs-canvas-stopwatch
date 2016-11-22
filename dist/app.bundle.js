@@ -88,14 +88,14 @@
 	            ctx.lineTo(watchSize + (watchSize - _armLength2) * Math.cos(_angle2), watchSize + (watchSize - _armLength2) * Math.sin(_angle2));
 	        }
 
-	        // Longer hand (minute), each minute goes a full circle
-	        var angle = time / 600 * (Math.PI * 2);
+	        // Longer hand (minute), each minute goes one step
+	        var angle = (time / 600 / 60 - 0.25) * (Math.PI * 2);
 	        var armLength = watchSize * 0.5;
 	        ctx.moveTo(watchSize, watchSize);
 	        ctx.lineTo(watchSize + armLength * Math.cos(angle), watchSize + armLength * Math.sin(angle));
 
-	        // Shorter hand (second), each second goes a full circle
-	        angle = time / 10 * (Math.PI * 2);
+	        // Shorter hand (second), each second goes one step
+	        angle = (time / 10 / 60 - 0.25) * (Math.PI * 2);
 	        armLength = watchSize * 0.8;
 	        ctx.moveTo(watchSize, watchSize);
 	        ctx.lineTo(watchSize + armLength * Math.cos(angle), watchSize + armLength * Math.sin(angle));

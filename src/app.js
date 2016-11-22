@@ -39,14 +39,14 @@ const draw = (time) => {
       ctx.lineTo(watchSize + (watchSize - armLength) * Math.cos(angle), watchSize + (watchSize - armLength) * Math.sin(angle));
     }
 
-    // Longer hand (minute), each minute goes a full circle
-    let angle = (time / 600) * (Math.PI * 2);
+    // Longer hand (minute), each minute goes one step
+    let angle = (time / 600 / 60 - 0.25) * (Math.PI * 2);
     let armLength = watchSize * 0.5;
     ctx.moveTo(watchSize, watchSize);
     ctx.lineTo(watchSize + armLength * Math.cos(angle), watchSize + armLength * Math.sin(angle));
 
-    // Shorter hand (second), each second goes a full circle
-    angle = (time / 10) * (Math.PI * 2);
+    // Shorter hand (second), each second goes one step
+    angle = (time / 10 / 60 - 0.25) * (Math.PI * 2);
     armLength = watchSize * 0.8;
     ctx.moveTo(watchSize, watchSize);
     ctx.lineTo(watchSize + armLength * Math.cos(angle), watchSize + armLength * Math.sin(angle));
