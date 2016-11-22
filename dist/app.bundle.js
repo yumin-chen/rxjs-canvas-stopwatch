@@ -52,10 +52,18 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var draw = function draw() {
+	var source = _Rx2.default.Observable.interval(100 /* ms */).timeInterval();
+
+	var subscription = source.subscribe(function (x) {
+	    draw(x.value);
+	});
+
+	var draw = function draw(time) {
 	    var canvas = document.getElementById('canvas');
 	    if (canvas.getContext) {
 	        var ctx = canvas.getContext('2d');
+
+	        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 	        var watchSize = 128;
 
@@ -66,19 +74,32 @@
 
 	        // 12 longer lines
 	        for (var i = 0; i < 12; i++) {
-	            var angle = i * (Math.PI * 2 / 12);
-	            var armLength = watchSize * 0.2;
-	            ctx.moveTo(watchSize + watchSize * Math.cos(angle) * 0.95, watchSize + watchSize * Math.sin(angle) * 0.95);
-	            ctx.lineTo(watchSize + (watchSize - armLength) * Math.cos(angle), watchSize + (watchSize - armLength) * Math.sin(angle));
+	            var _angle = i * (Math.PI * 2 / 12);
+	            var _armLength = watchSize * 0.2;
+	            ctx.moveTo(watchSize + watchSize * Math.cos(_angle) * 0.95, watchSize + watchSize * Math.sin(_angle) * 0.95);
+	            ctx.lineTo(watchSize + (watchSize - _armLength) * Math.cos(_angle), watchSize + (watchSize - _armLength) * Math.sin(_angle));
 	        }
 
 	        // 60 shorter lines
 	        for (var _i = 0; _i < 60; _i++) {
-	            var _angle = _i * (Math.PI * 2 / 60);
-	            var _armLength = watchSize * 0.1;
-	            ctx.moveTo(watchSize + watchSize * Math.cos(_angle) * 0.95, watchSize + watchSize * Math.sin(_angle) * 0.95);
-	            ctx.lineTo(watchSize + (watchSize - _armLength) * Math.cos(_angle), watchSize + (watchSize - _armLength) * Math.sin(_angle));
+	            var _angle2 = _i * (Math.PI * 2 / 60);
+	            var _armLength2 = watchSize * 0.1;
+	            ctx.moveTo(watchSize + watchSize * Math.cos(_angle2) * 0.95, watchSize + watchSize * Math.sin(_angle2) * 0.95);
+	            ctx.lineTo(watchSize + (watchSize - _armLength2) * Math.cos(_angle2), watchSize + (watchSize - _armLength2) * Math.sin(_angle2));
 	        }
+
+	        // Longer hand (minute), each minute goes a full circle
+	        var angle = time / 600 * (Math.PI * 2);
+	        var armLength = watchSize * 0.5;
+	        ctx.moveTo(watchSize, watchSize);
+	        ctx.lineTo(watchSize + armLength * Math.cos(angle), watchSize + armLength * Math.sin(angle));
+
+	        // Shorter hand (second), each second goes a full circle
+	        angle = time / 10 * (Math.PI * 2);
+	        armLength = watchSize * 0.8;
+	        ctx.moveTo(watchSize, watchSize);
+	        ctx.lineTo(watchSize + armLength * Math.cos(angle), watchSize + armLength * Math.sin(angle));
+
 	        ctx.stroke();
 	    }
 	};
