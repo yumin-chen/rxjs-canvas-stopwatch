@@ -54,66 +54,83 @@
 
 	var canvas = document.getElementById('canvas');
 	var digital = document.getElementById('digital');
+	var start = document.getElementById('start');
+	var stop = document.getElementById('stop');
+	var split = document.getElementById('split');
+	var reset = document.getElementById('reset');
 
 	var source = _Rx2.default.Observable.interval(100 /* ms */).timeInterval();
 
+	var started = false;
+	var time = 0; // 1/10 seconds
+
 	var subscription = source.subscribe(function (x) {
-	    draw(x.value);
-	    digital.innerHTML = Math.floor(x.value / 600) + ":" + Math.floor(x.value / 10 % 60) + ":" + x.value % 10 + "0";
+	  if (!started) return;
+	  time++;
+	  draw(time);
+	  digital.innerHTML = Math.floor(time / 600) + ":" + Math.floor(time / 10 % 60) + ":" + time % 10 + "0";
+	});
+
+	_Rx2.default.Observable.fromEvent(start, 'click').subscribe(function (e) {
+	  started = true;
+	});
+
+	_Rx2.default.Observable.fromEvent(stop, 'click').subscribe(function (e) {
+	  started = false;
 	});
 
 	var draw = function draw(time) {
-	    if (canvas.getContext) {
-	        var ctx = canvas.getContext('2d');
+	  if (canvas.getContext) {
+	    var ctx = canvas.getContext('2d');
 
-	        ctx.clearRect(0, 0, canvas.width, canvas.height);
+	    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-	        var watchSize = 96;
-	        var contentSize = 0.92;
+	    var watchSize = 96;
+	    var contentSize = 0.92;
 
-	        // Center doc
-	        ctx.fillStyle = "#13414E";
-	        ctx.beginPath();
-	        ctx.arc(watchSize, watchSize, 2, 0, 2 * Math.PI, true);
-	        ctx.fill();
+	    // Center doc
+	    ctx.fillStyle = "#13414E";
+	    ctx.beginPath();
+	    ctx.arc(watchSize, watchSize, 2, 0, 2 * Math.PI, true);
+	    ctx.fill();
 
-	        ctx.strokeStyle = "DimGray";
-	        ctx.beginPath();
+	    ctx.strokeStyle = "DimGray";
+	    ctx.beginPath();
 
-	        // Outer circle
-	        ctx.arc(watchSize, watchSize, watchSize, 0, Math.PI * 2, true);
-	        ctx.arc(watchSize, watchSize, watchSize - 2, 0, Math.PI * 2, true);
+	    // Outer circle
+	    ctx.arc(watchSize, watchSize, watchSize, 0, Math.PI * 2, true);
+	    ctx.arc(watchSize, watchSize, watchSize - 2, 0, Math.PI * 2, true);
 
-	        // 12 longer lines
-	        for (var i = 0; i < 12; i++) {
-	            var _angle = i * (Math.PI * 2 / 12);
-	            var _armLength = watchSize * 0.15;
-	            ctx.moveTo(watchSize + watchSize * Math.cos(_angle) * contentSize, watchSize + watchSize * Math.sin(_angle) * contentSize);
-	            ctx.lineTo(watchSize + (watchSize - _armLength) * Math.cos(_angle) * contentSize, watchSize + (watchSize - _armLength) * Math.sin(_angle) * contentSize);
-	        }
-
-	        // 60 shorter lines
-	        for (var _i = 0; _i < 60; _i++) {
-	            var _angle2 = _i * (Math.PI * 2 / 60);
-	            var _armLength2 = watchSize * 0.05;
-	            ctx.moveTo(watchSize + watchSize * Math.cos(_angle2) * contentSize, watchSize + watchSize * Math.sin(_angle2) * contentSize);
-	            ctx.lineTo(watchSize + (watchSize - _armLength2) * Math.cos(_angle2) * contentSize, watchSize + (watchSize - _armLength2) * Math.sin(_angle2) * contentSize);
-	        }
-
-	        // Longer hand (minute), each minute goes one step
-	        var angle = (time / 600 / 60 - 0.25) * (Math.PI * 2);
-	        var armLength = watchSize * 0.5;
-	        ctx.moveTo(watchSize, watchSize);
-	        ctx.lineTo(watchSize + armLength * Math.cos(angle), watchSize + armLength * Math.sin(angle));
-
-	        // Shorter hand (second), each second goes one step
-	        angle = (time / 10 / 60 - 0.25) * (Math.PI * 2);
-	        armLength = watchSize * 0.8;
-	        ctx.moveTo(watchSize, watchSize);
-	        ctx.lineTo(watchSize + armLength * Math.cos(angle), watchSize + armLength * Math.sin(angle));
-
-	        ctx.stroke();
+	    // 12 longer lines
+	    for (var i = 0; i < 12; i++) {
+	      var _angle = i * (Math.PI * 2 / 12);
+	      var _armLength = watchSize * 0.15;
+	      ctx.moveTo(watchSize + watchSize * Math.cos(_angle) * contentSize, watchSize + watchSize * Math.sin(_angle) * contentSize);
+	      ctx.lineTo(watchSize + (watchSize - _armLength) * Math.cos(_angle) * contentSize, watchSize + (watchSize - _armLength) * Math.sin(_angle) * contentSize);
 	    }
+
+	    // 60 shorter lines
+	    for (var _i = 0; _i < 60; _i++) {
+	      var _angle2 = _i * (Math.PI * 2 / 60);
+	      var _armLength2 = watchSize * 0.05;
+	      ctx.moveTo(watchSize + watchSize * Math.cos(_angle2) * contentSize, watchSize + watchSize * Math.sin(_angle2) * contentSize);
+	      ctx.lineTo(watchSize + (watchSize - _armLength2) * Math.cos(_angle2) * contentSize, watchSize + (watchSize - _armLength2) * Math.sin(_angle2) * contentSize);
+	    }
+
+	    // Longer hand (minute), each minute goes one step
+	    var angle = (time / 600 / 60 - 0.25) * (Math.PI * 2);
+	    var armLength = watchSize * 0.5;
+	    ctx.moveTo(watchSize, watchSize);
+	    ctx.lineTo(watchSize + armLength * Math.cos(angle), watchSize + armLength * Math.sin(angle));
+
+	    // Shorter hand (second), each second goes one step
+	    angle = (time / 10 / 60 - 0.25) * (Math.PI * 2);
+	    armLength = watchSize * 0.8;
+	    ctx.moveTo(watchSize, watchSize);
+	    ctx.lineTo(watchSize + armLength * Math.cos(angle), watchSize + armLength * Math.sin(angle));
+
+	    ctx.stroke();
+	  }
 	};
 
 	draw();

@@ -2,16 +2,35 @@ import Rx from 'rxjs/Rx';
 
 const canvas = document.getElementById('canvas');
 const digital = document.getElementById('digital');
+const start = document.getElementById('start');
+const stop = document.getElementById('stop');
+const split = document.getElementById('split');
+const reset = document.getElementById('reset');
 
-var source = Rx.Observable
-    .interval(100 /* ms */)
-    .timeInterval();
+const source = Rx.Observable
+  .interval(100 /* ms */ )
+  .timeInterval();
 
-var subscription = source.subscribe(
-    x => {
-        draw(x.value);
-        digital.innerHTML = Math.floor(x.value / 600) + ":" +  Math.floor((x.value / 10) % 60) + ":" + (x.value % 10) + "0";
-    });
+let started = false;
+let time = 0; // 1/10 seconds
+
+const subscription = source.subscribe(
+  x => {
+    if(!started) return;
+    time++;
+    draw(time);
+    digital.innerHTML = Math.floor(time / 600) + ":" + Math.floor((time / 10) % 60) + ":" + (time % 10) + "0";
+  });
+
+Rx.Observable.fromEvent(start, 'click')
+  .subscribe(e => {
+    started = true;
+  });
+
+Rx.Observable.fromEvent(stop, 'click')
+  .subscribe(e => {
+    started = false;
+  });
 
 const draw = (time) => {
   if (canvas.getContext) {
@@ -24,13 +43,13 @@ const draw = (time) => {
 
 
     // Center doc
-    ctx.fillStyle="#13414E";
+    ctx.fillStyle = "#13414E";
     ctx.beginPath();
     ctx.arc(watchSize, watchSize, 2, 0, 2 * Math.PI, true);
     ctx.fill();
 
 
-    ctx.strokeStyle="DimGray";
+    ctx.strokeStyle = "DimGray";
     ctx.beginPath();
 
     // Outer circle
