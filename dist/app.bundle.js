@@ -54,10 +54,7 @@
 
 	var canvas = document.getElementById('canvas');
 	var digital = document.getElementById('digital');
-	var start = document.getElementById('start');
-	var stop = document.getElementById('stop');
-	var split = document.getElementById('split');
-	var reset = document.getElementById('reset');
+	var splitsList = document.getElementById('splits-list');
 
 	var source = _Rx2.default.Observable.interval(100 /* ms */).timeInterval();
 
@@ -71,12 +68,24 @@
 	  digital.innerHTML = Math.floor(time / 600) + ":" + Math.floor(time / 10 % 60) + ":" + time % 10 + "0";
 	});
 
-	_Rx2.default.Observable.fromEvent(start, 'click').subscribe(function (e) {
+	_Rx2.default.Observable.fromEvent(document.getElementById('start'), 'click').subscribe(function (e) {
 	  started = true;
 	});
 
-	_Rx2.default.Observable.fromEvent(stop, 'click').subscribe(function (e) {
+	_Rx2.default.Observable.fromEvent(document.getElementById('stop'), 'click').subscribe(function (e) {
 	  started = false;
+	});
+
+	_Rx2.default.Observable.fromEvent(document.getElementById('split'), 'click').subscribe(function (e) {
+	  splitsList.innerHTML += digital.innerHTML + "<br/>";
+	});
+
+	_Rx2.default.Observable.fromEvent(document.getElementById('reset'), 'click').subscribe(function (e) {
+	  started = false;
+	  time = 0;
+	  draw(time);
+	  digital.innerHTML = "0:0:00";
+	  splitsList.innerHTML = "";
 	});
 
 	var draw = function draw(time) {

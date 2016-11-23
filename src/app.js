@@ -2,10 +2,7 @@ import Rx from 'rxjs/Rx';
 
 const canvas = document.getElementById('canvas');
 const digital = document.getElementById('digital');
-const start = document.getElementById('start');
-const stop = document.getElementById('stop');
-const split = document.getElementById('split');
-const reset = document.getElementById('reset');
+const splitsList = document.getElementById('splits-list');
 
 const source = Rx.Observable
   .interval(100 /* ms */ )
@@ -22,14 +19,28 @@ const subscription = source.subscribe(
     digital.innerHTML = Math.floor(time / 600) + ":" + Math.floor((time / 10) % 60) + ":" + (time % 10) + "0";
   });
 
-Rx.Observable.fromEvent(start, 'click')
+Rx.Observable.fromEvent(document.getElementById('start'), 'click')
   .subscribe(e => {
     started = true;
   });
 
-Rx.Observable.fromEvent(stop, 'click')
+Rx.Observable.fromEvent(document.getElementById('stop'), 'click')
   .subscribe(e => {
     started = false;
+  });
+
+Rx.Observable.fromEvent(document.getElementById('split'), 'click')
+  .subscribe(e => {
+    splitsList.innerHTML += digital.innerHTML + "<br/>";
+  });
+
+Rx.Observable.fromEvent(document.getElementById('reset'), 'click')
+  .subscribe(e => {
+    started = false;
+    time = 0;
+    draw(time);
+    digital.innerHTML = "0:0:00";
+    splitsList.innerHTML = "";
   });
 
 const draw = (time) => {
