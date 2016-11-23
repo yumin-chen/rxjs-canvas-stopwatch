@@ -66,26 +66,35 @@
 	        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 	        var watchSize = 128;
+	        var contentSize = 0.92;
 
+	        // Center doc
+	        ctx.fillStyle = "#13414E";
+	        ctx.beginPath();
+	        ctx.arc(watchSize, watchSize, 3, 0, 2 * Math.PI, true);
+	        ctx.fill();
+
+	        ctx.strokeStyle = "DimGray";
 	        ctx.beginPath();
 
 	        // Outer circle
 	        ctx.arc(watchSize, watchSize, watchSize, 0, Math.PI * 2, true);
+	        ctx.arc(watchSize, watchSize, watchSize - 3, 0, Math.PI * 2, true);
 
 	        // 12 longer lines
 	        for (var i = 0; i < 12; i++) {
 	            var _angle = i * (Math.PI * 2 / 12);
-	            var _armLength = watchSize * 0.2;
-	            ctx.moveTo(watchSize + watchSize * Math.cos(_angle) * 0.95, watchSize + watchSize * Math.sin(_angle) * 0.95);
-	            ctx.lineTo(watchSize + (watchSize - _armLength) * Math.cos(_angle), watchSize + (watchSize - _armLength) * Math.sin(_angle));
+	            var _armLength = watchSize * 0.15;
+	            ctx.moveTo(watchSize + watchSize * Math.cos(_angle) * contentSize, watchSize + watchSize * Math.sin(_angle) * contentSize);
+	            ctx.lineTo(watchSize + (watchSize - _armLength) * Math.cos(_angle) * contentSize, watchSize + (watchSize - _armLength) * Math.sin(_angle) * contentSize);
 	        }
 
 	        // 60 shorter lines
 	        for (var _i = 0; _i < 60; _i++) {
 	            var _angle2 = _i * (Math.PI * 2 / 60);
-	            var _armLength2 = watchSize * 0.1;
-	            ctx.moveTo(watchSize + watchSize * Math.cos(_angle2) * 0.95, watchSize + watchSize * Math.sin(_angle2) * 0.95);
-	            ctx.lineTo(watchSize + (watchSize - _armLength2) * Math.cos(_angle2), watchSize + (watchSize - _armLength2) * Math.sin(_angle2));
+	            var _armLength2 = watchSize * 0.05;
+	            ctx.moveTo(watchSize + watchSize * Math.cos(_angle2) * contentSize, watchSize + watchSize * Math.sin(_angle2) * contentSize);
+	            ctx.lineTo(watchSize + (watchSize - _armLength2) * Math.cos(_angle2) * contentSize, watchSize + (watchSize - _armLength2) * Math.sin(_angle2) * contentSize);
 	        }
 
 	        // Longer hand (minute), each minute goes one step
