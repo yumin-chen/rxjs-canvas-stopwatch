@@ -3,10 +3,25 @@
 
 <head>
   <title>Lab 5</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body>
-  <canvas id="canvas" width="256" height="256"></canvas>
+  <div class="row">
+    <div class="col left-col">
+      <canvas id="canvas" width="192" height="192"></canvas>
+      <h1 id="digital"></h1>
+      <div>
+        <button>Start</button>
+        <button>Stop</button>
+        <button>Split</button>
+        <button>Reset</button>
+      </div>
+    </div>
+    <div class="col right-col">
+      Splits:
+    </div>
+  </div>
 
   <script src="./dist/app.bundle.js"></script>
 </body>

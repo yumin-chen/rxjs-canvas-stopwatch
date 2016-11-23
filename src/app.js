@@ -1,5 +1,8 @@
 import Rx from 'rxjs/Rx';
 
+const canvas = document.getElementById('canvas');
+const digital = document.getElementById('digital');
+
 var source = Rx.Observable
     .interval(100 /* ms */)
     .timeInterval();
@@ -7,23 +10,23 @@ var source = Rx.Observable
 var subscription = source.subscribe(
     x => {
         draw(x.value);
+        digital.innerHTML = Math.floor(x.value / 600) + ":" +  Math.floor((x.value / 10) % 60) + ":" + (x.value % 10) + "0";
     });
 
 const draw = (time) => {
-  const canvas = document.getElementById('canvas');
   if (canvas.getContext) {
     const ctx = canvas.getContext('2d');
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    const watchSize = 128;
+    const watchSize = 96;
     const contentSize = 0.92;
 
 
     // Center doc
     ctx.fillStyle="#13414E";
     ctx.beginPath();
-    ctx.arc(watchSize, watchSize, 3, 0, 2 * Math.PI, true);
+    ctx.arc(watchSize, watchSize, 2, 0, 2 * Math.PI, true);
     ctx.fill();
 
 
@@ -32,7 +35,7 @@ const draw = (time) => {
 
     // Outer circle
     ctx.arc(watchSize, watchSize, watchSize, 0, Math.PI * 2, true);
-    ctx.arc(watchSize, watchSize, watchSize - 3, 0, Math.PI * 2, true);
+    ctx.arc(watchSize, watchSize, watchSize - 2, 0, Math.PI * 2, true);
 
     // 12 longer lines
     for (let i = 0; i < 12; i++) {

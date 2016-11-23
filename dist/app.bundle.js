@@ -52,26 +52,29 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var canvas = document.getElementById('canvas');
+	var digital = document.getElementById('digital');
+
 	var source = _Rx2.default.Observable.interval(100 /* ms */).timeInterval();
 
 	var subscription = source.subscribe(function (x) {
 	    draw(x.value);
+	    digital.innerHTML = Math.floor(x.value / 600) + ":" + Math.floor(x.value / 10 % 60) + ":" + x.value % 10 + "0";
 	});
 
 	var draw = function draw(time) {
-	    var canvas = document.getElementById('canvas');
 	    if (canvas.getContext) {
 	        var ctx = canvas.getContext('2d');
 
 	        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-	        var watchSize = 128;
+	        var watchSize = 96;
 	        var contentSize = 0.92;
 
 	        // Center doc
 	        ctx.fillStyle = "#13414E";
 	        ctx.beginPath();
-	        ctx.arc(watchSize, watchSize, 3, 0, 2 * Math.PI, true);
+	        ctx.arc(watchSize, watchSize, 2, 0, 2 * Math.PI, true);
 	        ctx.fill();
 
 	        ctx.strokeStyle = "DimGray";
@@ -79,7 +82,7 @@
 
 	        // Outer circle
 	        ctx.arc(watchSize, watchSize, watchSize, 0, Math.PI * 2, true);
-	        ctx.arc(watchSize, watchSize, watchSize - 3, 0, Math.PI * 2, true);
+	        ctx.arc(watchSize, watchSize, watchSize - 2, 0, Math.PI * 2, true);
 
 	        // 12 longer lines
 	        for (var i = 0; i < 12; i++) {

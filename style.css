@@ -1,0 +1,19 @@
+.row {
+  width: 100%;
+}
+
+.col {
+  margin: 8px 8px;
+  display: inline-block;
+  min-width: 128px;
+}
+
+.left-col {
+  float: left;
+  width: 200px;
+  margin-right: 24px;
+  text-align: center;
+}
+
+.right-col {
+}
