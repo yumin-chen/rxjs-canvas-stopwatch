@@ -1,11 +1,19 @@
-**Rich Web Lab 5**
+**Use RxJS to Build a Simple Stream-Driven Stopwatch**
 ========================
+
+
+Introduction
+------------------------
+This is the source code for my blog post [Use RxJS to Build a Simple Stream-Driven Stopwatch](http://chenyumin.com/p/use-reactivex-rxjs-to-build-a-stream-driven-stopwatch). 
+
+![Stopwatch Drawn using HTML5 Canvas](rxjs-stopwatch.jpg)
+
+This repository contains the source code of a simple stream-driven stopwatch written in ReactiveX (RxJS), using HTML5 Canvas to draw / render the shape of the clock / stopwatch.
 
 
 Author
 ------------------------
-* Yumin Chen  
-	D16123341
+* Chen Yumin
 
 
 Licensing
@@ -15,9 +23,7 @@ Please see the file named [LICENSE.md](LICENSE.md).
 
 Contact
 ------------------------
-* CharmySoft: [*http://www.CharmySoft.com/*][1]  
-* About: [*http://www.CharmySoft.com/about.htm*][2]  
-* Email: [*Charlie@CharmySoft.com*](mailto:Charlie@CharmySoft.com)  
+* Chen Yumin: [*http://ChenYumin.com*][1]  
+* Email: [*hello@chenyumin.com*](mailto:hello@chenyumin.com)  
 
-[1]: http://www.CharmySoft.com/ "CharmySoft"
-[2]: http://www.CharmySoft.com/about.htm "About CharmySoft"
+[1]: http://www.ChenYumin.com/ "Chen Yumin"
