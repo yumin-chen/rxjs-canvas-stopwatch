@@ -1,11 +1,12 @@
 .row {
   width: 100%;
+  white-space: nowrap;
 }
 
 .col {
   margin: 8px 8px;
   display: inline-block;
-  min-width: 128px;
+  min-width: 64px;
 }
 
 .left-col {
